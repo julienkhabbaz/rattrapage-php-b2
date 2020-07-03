@@ -1,0 +1,66 @@
+{% extends 'base.html.twig' %}
+
+
+
+
+{% block title %}Les produits{% endblock %}
+
+{% block body %}
+
+	{% for message in app.flashes('success')  %}
+		<div class="alert alert-success">
+			{{ message }}
+		
+		</div>
+	{% endfor %}
+<div class = "row">
+<div class="col-md-9">
+  {{ form_start(form)}}
+  {{ form_row(form.nom) }}
+</div>   
+<div class="col-md-3 ">
+<button class="btn btn-success">Rechercher</button>
+</div>
+  {{ form_end(form)}}
+
+</div>
+          
+    <div class="bg-light p-3">
+        <h1>Les produits</h1>
+    </div>
+
+    <div class="row">
+        {% for produit in produits %}
+            <div class="col-4 mt-4">
+                <div class="border border-dark rounded p-2 clearfix">
+                    <h2 >
+                       <a  style="color:#333;"href="{{ path('produit_detail', {id: produit.id}) }}" > {{ produit.name }}</a>
+                        
+                      
+                    </h2>
+                    	{% if produit.picture %}
+		             <a style="color:#333;" href="{{ path('produit_detail', {id: produit.id}) }}" >   <img   href="{{ path('produit_detail', {id: produit.id}) }}"  src="{{ produit.picture}}" alt="card-img-top" class="img-fluid rounded"></a>
+	                     {% else %}
+		           <a href="{{ path('produit_detail', {id: produit.id}) }}" > <img src="{{ '/images/empty.png' }}" alt="card-img-top" class="img-fluid rounded"></a>
+
+
+	                {% endif %}
+                    <hr>
+                    <a href="{{ path('cart_add',{'id': produit.id})}}" class="btn btn-warning text-light float-right">
+                        <i class="fas fa-shopping-cart mr-1"></i>
+                        Ajouter au panier
+                    </a>
+
+                    {% if produit.promo == 1 %}
+                    <h6  class="text-danger float-left">
+                        -50
+                        <i class="fas fa-percentage ml-1"></i>
+   
+                    </h6>
+                     {% endif %}
+                </div>
+
+            </div>
+        {% endfor %}
+    </div>
+{% endblock %}
